@@ -109,7 +109,7 @@ namespace Calculator
             equalsClicked = false;
 
             // deleting beforeSpace, sign and afterSpace | defining bools' state in case lastEl = operator
-            if (textBox.Text[textBox.Text.Length - 1] == ' ')
+            if (textBox.Text[^1] == ' ')
             {
                 // deleting beforeSpace, a sign, and afterSpace
                 textBox.Text = textBox.Text[..^3];
@@ -125,9 +125,9 @@ namespace Calculator
 
             // deleting last digit or comma and defining bools' state in case lastEl = number | comma
             // {
-            if (textBox.Text[textBox.Text.Length - 1] == ',') dotClicked = false;
+            if (textBox.Text[^1] == ',') dotClicked = false;
 
-            if (textBox.Text[textBox.Text.Length - 2] == ' ')
+            if (textBox.Text[^2] == ' ')
             {
                 numberClicked = false;
                 operatorClicked = true;

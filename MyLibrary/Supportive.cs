@@ -49,7 +49,7 @@ public class Supportive
 
     public static bool lastElIsComma(string str)
     {
-        if (str[str.Length - 1] == ',' && str[str.Length - 2] == ' ') return true;
+        if (str[^1] == ',' && str[^2] == ' ') return true;
         
         return false;
     }
