@@ -46,4 +46,11 @@ public class Supportive
 
         return str[(i + 1)..];
     }
+
+    public static bool lastElIsComma(string str)
+    {
+        if (str[str.Length - 1] == ',' && str[str.Length - 2] == ' ') return true;
+        
+        return false;
+    }
 }

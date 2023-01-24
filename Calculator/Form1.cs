@@ -38,7 +38,8 @@ namespace Calculator
         private void operatorClick(object sender, EventArgs e)
         {
             // (0 + , - 0) case (probably temporary) fix
-            if (Supportive.LastElement(textBox.Text) == ",") return;
+            // || ((Button)sender).Text == textBox.Text[textBox.Text.Length - 1] effective?
+            if (Supportive.lastElIsComma(textBox.Text)) return;
 
             // sign addition
             if (!operatorClicked) textBox.Text += " " + ((Button)sender).Text + " "; 
@@ -69,6 +70,7 @@ namespace Calculator
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                buttonClearAll.PerformClick();
                 return;
             }
 
