@@ -37,7 +37,10 @@ namespace Calculator
 
         private void operatorClick(object sender, EventArgs e)
         {
-            // sign addition (&& Supportive.LastEl() != ',' ("0 + , -" case))
+            // (0 + , - 0) case (probably temporary) fix
+            if (Supportive.LastElement(textBox.Text) == ",") return;
+
+            // sign addition
             if (!operatorClicked) textBox.Text += " " + ((Button)sender).Text + " "; 
             
             // sign replacement
@@ -58,8 +61,16 @@ namespace Calculator
             numbers = new List<double>();
 
             // operators(list) is empty after .Calculate(), numbers(list) contains answer as its first element and nothing else
-            Supportive.SortLists(ref operators, ref numbers);
-            Supportive.Calculate(ref operators, ref numbers, priority);
+            try
+            {
+                Supportive.SortLists(ref operators, ref numbers);
+                Supportive.Calculate(ref operators, ref numbers, priority);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
 
             label.Text = $"Answer = {numbers[0]}";
             textBox.Text = numbers[0].ToString();
