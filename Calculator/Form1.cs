@@ -24,7 +24,7 @@ namespace Calculator
             numberClicked = true;
             operatorClicked = false;
 
-            // basic replacement of the first number (+ case after equalsClicked to clear the result)
+            // basic replacement of the first number (+ case after buttonEquals_Click to clear the result)
             if (textBox.Text == "0" || equalsClicked)
             {
                 textBox.Text = ((Button)sender).Text;
@@ -66,7 +66,6 @@ namespace Calculator
 
             equalsClicked = true;
             numberClicked = false;
-
         }
 
         private void buttonDot_Click(object sender, EventArgs e)
@@ -83,8 +82,6 @@ namespace Calculator
 
         private void buttonClear_Click(object sender, EventArgs e)
         {
-            // WRITE LOGIC FOR BOOLEANS
-            
             // logic for single-digit input
             // {
             if (textBox.Text == "0") return;
@@ -113,26 +110,18 @@ namespace Calculator
                 return;
             }
 
-            // deleting last digit or comma and defining bools' state in case lastEl = number | comma (else to be removed)
-            else
+            // deleting last digit or comma and defining bools' state in case lastEl = number | comma
+            // {
+            if (textBox.Text[textBox.Text.Length - 1] == ',') dotClicked = false;
+
+            if (textBox.Text[textBox.Text.Length - 2] == ' ')
             {
-                if (textBox.Text[textBox.Text.Length - 1] == ',') dotClicked = false;
-                
-                // deleting last digit of the number / comma as the number's last element and defining bools
-                if (textBox.Text[textBox.Text.Length - 2] == ' ')
-                {
-                    //textBox.Text = textBox.Text[..^2];
-
-                    numberClicked = false;
-                    operatorClicked = true;
-
-                    //return;
-                }
-                
-                textBox.Text = textBox.Text[..^1];
-                
-                return;
+                numberClicked = false;
+                operatorClicked = true;
             }
+
+            textBox.Text = textBox.Text[..^1];
+            // }
         }
 
         private void buttonClearAll_Click(object sender, EventArgs e)
