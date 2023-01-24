@@ -1,281 +1,156 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using MyLibrary;
 
 namespace Calculator
 {
     public partial class Form1 : Form
     {
-        string decRes = "";
-        double result = 0;
-        string hexaResult = "";
-        string operation = "";
-        bool decim, binary, hexa, operatorClicked;
         public Form1()
         {
             InitializeComponent();
         }
-        private void buttonClick(object sender, EventArgs e)
-        {
-            if ((textBox.Text == "0") || (operatorClicked))
-                textBox.Clear();
+        
+        private bool numberClicked;
+        private bool operatorClicked;
+        private bool dotClicked;
+        private bool equalsClicked;
 
+        private string[] priority = { "*/", "+-" };
+
+        List<string> operators;
+        List<double> numbers;
+
+        private void numberClick(object sender, EventArgs e)
+        {
+            numberClicked = true;
             operatorClicked = false;
-            Button button = (Button)sender;
-            Number number = new Number(button.Text);
-            if (number.value() == ".")
+
+            // basic replacement of the first number (+ case after equalsClicked to clear the result)
+            if (textBox.Text == "0" || equalsClicked)
             {
-                if (!textBox.Text.Contains("."))
-                {
-                    textBox.Text += number.value();
-                }
-            } else textBox.Text += number.value();
+                textBox.Text = ((Button)sender).Text;
+                equalsClicked = false;
+                return;
+            }
+
+            textBox.Text += ((Button)sender).Text;
         }
 
         private void operatorClick(object sender, EventArgs e)
         {
-            Button button = (Button)sender;
-            Operator oper = new Operator(button.Text);
-            if (!hexa)
-            {
-                if (result != 0)
-                {
-                    buttonEqual.PerformClick();
-                    operation = oper.value();
-                    history.Text = result + " " + operation;
-                    operatorClicked = true;
-                }
-                else
-                {
-                    operation = oper.value();
-                    result = double.Parse(textBox.Text);
-                    operatorClicked = true;
-                }
-                textBox.Text = "";
-            }
-            else
-            {
-                if (hexaResult != "0")
-                {
-                    buttonEqual.PerformClick();
-                    operation = oper.value();
-                    history.Text = hexaResult + " " + operation;
-                    operatorClicked = true;
-                }
-                else
-                {
-                    operation = oper.value();
-                    hexaResult = textBox.Text;
-                    operatorClicked = true;
-                }
-                textBox.Text = "";
-            }
+            // sign addition (&& Supportive.LastEl() != ',' ("0 + , -" case))
+            if (!operatorClicked) textBox.Text += " " + ((Button)sender).Text + " "; 
+            
+            // sign replacement
+            else textBox.Text = textBox.Text.Remove(textBox.Text.Length - 2, 2) + ((Button)sender).Text + " ";
+
+            numberClicked = false;
+            operatorClicked = true;
+            dotClicked = false;
+            equalsClicked = false;
+        }
+
+        private void buttonEquals_Click(object sender, EventArgs e)
+        {
+            // the following code should be executed only if the string has such format "number operation number ... number" (required to end with a number)
+            if (!numberClicked) return;
+
+            operators = new List<string>(textBox.Text.Split(" "));
+            numbers = new List<double>();
+
+            // operators(list) is empty after .Calculate(), numbers(list) contains answer as its first element and nothing else
+            Supportive.SortLists(ref operators, ref numbers);
+            Supportive.Calculate(ref operators, ref numbers, priority);
+
+            label.Text = $"Answer = {numbers[0]}";
+            textBox.Text = numbers[0].ToString();
+
+            equalsClicked = true;
+            numberClicked = false;
+
+        }
+
+        private void buttonDot_Click(object sender, EventArgs e)
+        {
+            // dot can be placed only once in a single number
+            if (dotClicked) return;
+
+            textBox.Text += ",";
+
+            dotClicked = true;
+            operatorClicked = false;
+            equalsClicked = false;
         }
 
         private void buttonClear_Click(object sender, EventArgs e)
         {
+            // WRITE LOGIC FOR BOOLEANS
+            
+            // logic for single-digit input
+            // {
+            if (textBox.Text == "0") return;
+
+            else if (textBox.Text.Length == 1)
+            {
+                textBox.Text = "0";
+                return;
+            }
+            // }
+
+            equalsClicked = false;
+
+            // deleting beforeSpace, sign and afterSpace | defining bools' state in case lastEl = operator
+            if (textBox.Text[textBox.Text.Length - 1] == ' ')
+            {
+                // deleting beforeSpace, a sign, and afterSpace
+                textBox.Text = textBox.Text[..^3];
+
+                // defining dotClicked value
+                if (Supportive.LastElement(textBox.Text).Contains(',')) dotClicked = true;
+                
+                numberClicked = true;
+                operatorClicked = false;
+
+                return;
+            }
+
+            // deleting last digit or comma and defining bools' state in case lastEl = number | comma (else to be removed)
+            else
+            {
+                if (textBox.Text[textBox.Text.Length - 1] == ',') dotClicked = false;
+                
+                // deleting last digit of the number / comma as the number's last element and defining bools
+                if (textBox.Text[textBox.Text.Length - 2] == ' ')
+                {
+                    //textBox.Text = textBox.Text[..^2];
+
+                    numberClicked = false;
+                    operatorClicked = true;
+
+                    //return;
+                }
+                
+                textBox.Text = textBox.Text[..^1];
+                
+                return;
+            }
+        }
+
+        private void buttonClearAll_Click(object sender, EventArgs e)
+        {
+            if (textBox.Text == "0") return;
+
             textBox.Text = "0";
-            hexaResult = "";
-            result = 0;
-            operation = "";
+            numberClicked = false;
             operatorClicked = false;
-            history.Text = "";
-            label1.Text = "0";
-            label2.Text = "0";
-            label3.Text = "0";
+            dotClicked = false;
+            equalsClicked = false;
         }
 
-        private void buttonDelete_Click(object sender, EventArgs e)
+        /*
+        private void Form1_Load(object sender, EventArgs e)
         {
-            Operator oper = new Operator(textBox.Text);
-            if (oper.value() != "")
-            {
-                textBox.Text = oper.delete();
-                if (oper.value().Length == 0) result = 0;
-                else result = double.Parse(oper.value());
-            }
-        }
 
-        private void buttonEqual_Click(object sender, EventArgs e)
-        {
-            if (decim)
-            {
-                switch (operation)
-                {
-                    case "+":
-                        textBox.Text = (result + double.Parse(textBox.Text)).ToString();
-                        break;
-                    case "-":
-                        textBox.Text = (result - double.Parse(textBox.Text)).ToString();
-                        break;
-                    case "*":
-                        textBox.Text = (result * double.Parse(textBox.Text)).ToString();
-                        break;
-                    case "/":
-                        textBox.Text = (result / double.Parse(textBox.Text)).ToString();
-                        break;
-                    default:
-                        break;
-                }
-                label1.Text = textBox.Text;
-                label2.Text = Convert.ToString((int)double.Parse(textBox.Text), 2);
-                label3.Text = Convert.ToString((int)double.Parse(textBox.Text), 16);
-                result = double.Parse(textBox.Text);
-                history.Text = "";
-            }
-            if (binary)
-            {
-                switch (operation)
-                {
-                    case "+":
-                        decRes = (Convert.ToInt32(result.ToString(), 2) + Convert.ToInt32(textBox.Text, 2)).ToString();
-                        textBox.Text = Convert.ToString((int)double.Parse(decRes), 2);
-                        break;
-                    case "-":
-                        decRes = (Convert.ToInt32(result.ToString(), 2) - Convert.ToInt32(textBox.Text, 2)).ToString();
-                        textBox.Text = Convert.ToString((int)double.Parse(decRes), 2);
-                        break;
-                    case "*":
-                        decRes = (Convert.ToInt32(result.ToString(), 2) * Convert.ToInt32(textBox.Text, 2)).ToString();
-                        textBox.Text = Convert.ToString((int)double.Parse(decRes), 2);
-                        break;
-                    case "/":
-                        decRes = (Convert.ToInt32(result.ToString(), 2) / Convert.ToInt32(textBox.Text, 2)).ToString();
-                        textBox.Text = Convert.ToString((int)double.Parse(decRes), 2);
-                        break;
-                    default:
-                        break;
-                }
-                label1.Text = decRes;
-                label2.Text = textBox.Text;
-                label3.Text = Convert.ToString((int)double.Parse(textBox.Text), 16);
-                result = double.Parse(textBox.Text);
-                history.Text = "";
-            }
-            if (hexa)
-            {
-                switch (operation)
-                {
-                    case "+":
-                        decRes = (Convert.ToInt32(hexaResult, 16) + Convert.ToInt32(textBox.Text, 16)).ToString();
-                        textBox.Text = Convert.ToString((int)double.Parse(decRes), 16);
-                        break;
-                    case "-":
-                        decRes = (Convert.ToInt32(hexaResult, 16) - Convert.ToInt32(textBox.Text, 16)).ToString();
-                        textBox.Text = Convert.ToString((int)double.Parse(decRes), 16);
-                        break;
-                    case "*":
-                        decRes = (Convert.ToInt32(hexaResult, 16) * Convert.ToInt32(textBox.Text, 16)).ToString();
-                        textBox.Text = Convert.ToString((int)double.Parse(decRes), 16);
-                        break;
-                    case "/":
-                        decRes = (Convert.ToInt32(hexaResult, 16) / Convert.ToInt32(textBox.Text, 16)).ToString();
-                        textBox.Text = Convert.ToString((int)double.Parse(decRes), 16);
-                        break;
-                    default:
-                        break;
-                }
-                label1.Text = decRes;
-                //label2.Text = Convert.ToString((int)double.Parse(decRes), 2);
-                label3.Text = textBox.Text;
-                hexaResult = textBox.Text;
-                history.Text = "";
-            }
         }
-
-        private void buttonInverse_Click(object sender, EventArgs e)
-        {
-            textBox.Text = (1 / double.Parse(textBox.Text)).ToString();
-            result = 1 / double.Parse(textBox.Text);
-        }
-
-        private void buttonStatus_Click(object sender, EventArgs e)
-        {
-            if (textBox.Text.Length != 0 && textBox.Text != "0")
-            {
-                textBox.Text = (double.Parse(textBox.Text) * (-1)).ToString();
-            }
-        }
-
-        private void buttonDecimal_Click(object sender, EventArgs e)
-        {
-            buttonClear.PerformClick();
-            decim = true;
-            binary = false;
-            hexa = false;
-            buttonA.Hide();
-            buttonB.Hide();
-            buttonC.Hide();
-            buttonD.Hide();
-            buttonE.Hide();
-            buttonF.Hide();
-            buttonInverse.Show();
-            buttonStatus.Show();
-            button2.Show();
-            button3.Show();
-            button4.Show();
-            button5.Show();
-            button6.Show();
-            button7.Show();
-            button8.Show();
-            button9.Show();
-            buttonDot.Show();
-        }
-
-        private void buttonBinary_Click(object sender, EventArgs e)
-        {
-            buttonClear.PerformClick();
-            binary = true;
-            decim = false;
-            hexa = false;
-            buttonA.Hide();
-            buttonB.Hide();
-            buttonC.Hide();
-            buttonD.Hide();
-            buttonE.Hide();
-            buttonF.Hide();
-            buttonInverse.Hide();
-            buttonStatus.Hide();
-            button2.Hide();
-            button3.Hide();
-            button4.Hide();
-            button5.Hide();
-            button6.Hide();
-            button7.Hide();
-            button8.Hide();
-            button9.Hide();
-            buttonDot.Hide();
-        }
-
-        private void buttonHexadecimal_Click(object sender, EventArgs e)
-        {
-            buttonClear.PerformClick();
-            hexa = true;
-            decim = false;
-            binary = false;
-            buttonA.Show();
-            buttonB.Show();
-            buttonC.Show();
-            buttonD.Show();
-            buttonE.Show();
-            buttonF.Show();
-            buttonInverse.Hide();
-            buttonStatus.Hide();
-            button2.Show();
-            button3.Show();
-            button4.Show();
-            button5.Show();
-            button6.Show();
-            button7.Show();
-            button8.Show();
-            button9.Show();
-            buttonDot.Hide();
-        }
+        */
     }
 }
