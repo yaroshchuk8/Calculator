@@ -70,6 +70,10 @@ namespace Calculator
                 buttonClearAll.PerformClick();
                 return;
             }
+            
+            // implement clever rounding
+            /*string result = numbers[0].ToString();
+            if (result.Contains(',') && result[^1] == '0') result = result.TrimEnd('0');*/
 
             label.Text = $"Answer = {numbers[0]}";
             textBox.Text = numbers[0].ToString();
@@ -108,10 +112,8 @@ namespace Calculator
             // deleting beforeSpace, sign and afterSpace | defining bools' state in case lastEl = operator
             if (textBox.Text[^1] == ' ')
             {
-                // deleting beforeSpace, a sign, and afterSpace
                 textBox.Text = textBox.Text[..^3];
 
-                // defining dotClicked value
                 if (Supportive.LastElement(textBox.Text).Contains(',')) dotClicked = true;
                 
                 numberClicked = true;
