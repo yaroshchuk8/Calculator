@@ -16,9 +16,6 @@ namespace Calculator
 
         private string[] priority = { "*/", "+-" };
 
-        List<string> operators;
-        List<double> numbers;
-
         private void numberClick(object sender, EventArgs e)
         {
             numberClicked = true;
@@ -58,8 +55,8 @@ namespace Calculator
             // the following code should be executed only if the string has such format "number operation number ... number" (required to end with a number)
             if (!numberClicked) return;
 
-            operators = new List<string>(textBox.Text.Split(" "));
-            numbers = new List<double>();
+            List<string> operators = new List<string>(textBox.Text.Split(" "));
+            List<decimal> numbers = new List<decimal>();
 
             // operators(list) is empty after .Calculate(), numbers(list) contains answer as its first element and nothing else
             try

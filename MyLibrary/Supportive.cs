@@ -2,16 +2,16 @@
 
 public class Supportive
 {
-    public static void SortLists(ref List<string> operators, ref List<double> numbers)
+    public static void SortLists(ref List<string> operators, ref List<decimal> numbers)
     {
         for (int i = 0; i < operators.Count; i++)
         {
-            numbers.Add(Double.Parse(operators[i]));
+            numbers.Add(Decimal.Parse(operators[i]));
             operators.RemoveAt(i);
         }
     }
 
-    public static void Calculate(ref List<string> operators, ref List<double> numbers, string[] priority)
+    public static void Calculate(ref List<string> operators, ref List<decimal> numbers, string[] priority)
     {
         for (int i = 0; i < priority.Length; i++)
             for (int j = 0; j < operators.Count; j++)
