@@ -47,9 +47,9 @@ public class Supportive
         return str[(i + 1)..];
     }
 
-    public static bool lastElIsComma(string str)
+    public static bool LastElIsCommaOrMinus(string str)
     {
-        if (str[^1] == ',' && str[^2] == ' ') return true;
+        if ((str[^1] == ',' && str[^2] == ' ') || str[^1] == '-') return true;
         
         return false;
     }
