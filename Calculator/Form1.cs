@@ -74,7 +74,7 @@ namespace Calculator
             /*string result = numbers[0].ToString();
             if (result.Contains(',') && result[^1] == '0') result = result.TrimEnd('0');*/
 
-            label.Text = $"Answer = {numbers[0]}";
+            textBoxResult.Text = $"Ans = {numbers[0]}";
             textBox.Text = numbers[0].ToString();
 
             equalsClicked = true;
@@ -99,7 +99,7 @@ namespace Calculator
             // {
             if (textBox.Text == "0") return;
 
-            else if (textBox.Text.Length == 1) // || textBox.Text.Length == 2 && textBox.Text[0] == '-' (as fix for issue #4)
+            else if (textBox.Text.Length == 1)
             {
                 textBox.Text = "0";
                 return;
@@ -139,6 +139,7 @@ namespace Calculator
         {
             if (textBox.Text == "0") return;
 
+            textBoxResult.Text = string.Empty;
             textBox.Text = "0";
             numberClicked = false;
             operatorClicked = false;
