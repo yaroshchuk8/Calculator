@@ -156,22 +156,22 @@ namespace Calculator
             using (var graphics = textBox.CreateGraphics())
             {
                 var size = TextRenderer.MeasureText(graphics, textBox.Text, textBox.Font);
-
-                if (size.Width > textBox.ClientRectangle.Width)
+                
+                while (textBox.Font.Size > minFontSize)
                 {
-                    if (textBox.Font.Size == minFontSize) return;
+                    if (size.Width <= textBox.ClientRectangle.Width) break;
 
                     textBox.Font = new Font(textBox.Font.FontFamily, textBox.Font.Size - 1);
-                    return;
                 }
 
                 while (textBox.Font.Size < maxFontSize)
                 {
-                    var sizeNext = TextRenderer.MeasureText(graphics, textBox.Text, new Font(textBox.Font.FontFamily, textBox.Font.Size + 1));
+                    var font = new Font(textBox.Font.FontFamily, textBox.Font.Size + 1);
+                    var sizeNext = TextRenderer.MeasureText(graphics, textBox.Text, font);
                     
                     if (sizeNext.Width > textBox.ClientRectangle.Width) return;
 
-                    textBox.Font = new Font(textBox.Font.FontFamily, textBox.Font.Size + 1);
+                    textBox.Font = font;
                 }
             }
         }
