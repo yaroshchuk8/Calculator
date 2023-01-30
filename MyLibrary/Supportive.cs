@@ -54,7 +54,7 @@ public class Supportive
         return false;
     }
     
-    // removes all trailing zeros in fractional number, and if the last character after trimming is ',' than removes it too
+    // removes all trailing zeros in fractional number, and if the last character after trimming is ',' then removes it too
     public static string TrimZerosAndComma(string str)
     {
         if (!str.Contains(',')) return str;
