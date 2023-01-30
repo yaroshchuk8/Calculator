@@ -70,10 +70,13 @@ namespace Calculator
                 return;
             }
 
-            // issue #3
+            // issue #3 (trimming unnecessary zeros)
             textBox.Text = Supportive.TrimZerosAndComma(numbers[0].ToString());
             textBoxResult.Text = "Ans = " + textBox.Text;
 
+            // issue #8 (dotClicked state if result is fractional number)
+            if (textBox.Text.Contains(',')) dotClicked = true;
+            
             equalsClicked = true;
             numberClicked = false;
         }
