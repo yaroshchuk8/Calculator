@@ -8,7 +8,10 @@ namespace Calculator
         {
             InitializeComponent();
         }
-        
+
+        private int maxFontSize = 26;
+        private int minFontSize = 16;
+
         private bool numberClicked;
         private bool operatorClicked;
         private bool dotClicked;
@@ -145,6 +148,32 @@ namespace Calculator
             operatorClicked = false;
             dotClicked = false;
             equalsClicked = false;
+        }
+
+        private void textBox_TextChanged(object sender, EventArgs e)
+        {
+            // issue #7 (auto resizable text)
+            using (var graphics = textBox.CreateGraphics())
+            {
+                var size = TextRenderer.MeasureText(graphics, textBox.Text, textBox.Font);
+
+                if (size.Width > textBox.ClientRectangle.Width)
+                {
+                    if (textBox.Font.Size == minFontSize) return;
+
+                    textBox.Font = new Font(textBox.Font.FontFamily, textBox.Font.Size - 1);
+                    return;
+                }
+
+                while (textBox.Font.Size < maxFontSize)
+                {
+                    var sizeNext = TextRenderer.MeasureText(graphics, textBox.Text, new Font(textBox.Font.FontFamily, textBox.Font.Size + 1));
+                    
+                    if (sizeNext.Width > textBox.ClientRectangle.Width) return;
+
+                    textBox.Font = new Font(textBox.Font.FontFamily, textBox.Font.Size + 1);
+                }
+            }
         }
 
         /*

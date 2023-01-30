@@ -265,14 +265,15 @@
             // textBox
             // 
             this.textBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 25.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox.Location = new System.Drawing.Point(12, 134);
+            this.textBox.Font = new System.Drawing.Font("Segoe UI Semibold", 26F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.textBox.Location = new System.Drawing.Point(12, 132);
             this.textBox.Name = "textBox";
             this.textBox.ReadOnly = true;
-            this.textBox.Size = new System.Drawing.Size(441, 49);
+            this.textBox.Size = new System.Drawing.Size(441, 58);
             this.textBox.TabIndex = 16;
             this.textBox.Text = "0";
             this.textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
             // buttonDot
             // 
@@ -321,11 +322,11 @@
             this.textBoxResult.BackColor = System.Drawing.SystemColors.Control;
             this.textBoxResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxResult.Enabled = false;
-            this.textBoxResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBoxResult.Location = new System.Drawing.Point(12, 90);
+            this.textBoxResult.Font = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.textBoxResult.Location = new System.Drawing.Point(12, 95);
             this.textBoxResult.Name = "textBoxResult";
             this.textBoxResult.ReadOnly = true;
-            this.textBoxResult.Size = new System.Drawing.Size(441, 38);
+            this.textBoxResult.Size = new System.Drawing.Size(441, 31);
             this.textBoxResult.TabIndex = 20;
             this.textBoxResult.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
