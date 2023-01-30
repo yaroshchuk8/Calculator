@@ -69,13 +69,10 @@ namespace Calculator
                 buttonClearAll.PerformClick();
                 return;
             }
-            
-            // implement clever rounding
-            /*string result = numbers[0].ToString();
-            if (result.Contains(',') && result[^1] == '0') result = result.TrimEnd('0');*/
 
-            textBoxResult.Text = $"Ans = {numbers[0]}";
-            textBox.Text = numbers[0].ToString();
+            // issue #3
+            textBox.Text = Supportive.TrimZerosAndComma(numbers[0].ToString());
+            textBoxResult.Text = "Ans = " + textBox.Text;
 
             equalsClicked = true;
             numberClicked = false;
