@@ -10,7 +10,7 @@ namespace Calculator
         }
 
         private int maxFontSize = 26;
-        private int minFontSize = 16;
+        private int minFontSize = 11;
 
         private bool numberClicked;
         private bool operatorClicked;
@@ -68,7 +68,7 @@ namespace Calculator
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error");
                 buttonClearAll.PerformClick();
                 return;
             }
@@ -161,12 +161,12 @@ namespace Calculator
                 {
                     if (size.Width <= textBox.ClientRectangle.Width) break;
 
-                    textBox.Font = new Font(textBox.Font.FontFamily, textBox.Font.Size - 1);
+                    textBox.Font = new Font(textBox.Font.FontFamily, textBox.Font.Size - 1.25f);
                 }
 
                 while (textBox.Font.Size < maxFontSize)
                 {
-                    var font = new Font(textBox.Font.FontFamily, textBox.Font.Size + 1);
+                    var font = new Font(textBox.Font.FontFamily, textBox.Font.Size + 1.25f);
                     var sizeNext = TextRenderer.MeasureText(graphics, textBox.Text, font);
                     
                     if (sizeNext.Width > textBox.ClientRectangle.Width) return;
