@@ -2,15 +2,15 @@
 
 namespace Calculator
 {
-    public partial class Form1 : Form
+    public partial class Form : System.Windows.Forms.Form
     {
-        public Form1()
+        public Form()
         {
             InitializeComponent();
         }
 
-        private int maxFontSize = 26;
-        private int minFontSize = 11;
+        private float maxFontSize = 26.0f;
+        private float minFontSize = 11.0f;
 
         private bool numberClicked;
         private bool operatorClicked;
@@ -153,26 +153,30 @@ namespace Calculator
         private void textBox_TextChanged(object sender, EventArgs e)
         {
             // issue #7 (auto resizable text)
-            using (var graphics = textBox.CreateGraphics())
+            bool decreased = false;
+
+            // decreasing font size
+            while (textBox.Font.Size > minFontSize)
             {
-                var size = TextRenderer.MeasureText(graphics, textBox.Text, textBox.Font);
-                
-                while (textBox.Font.Size > minFontSize)
-                {
-                    if (size.Width <= textBox.ClientRectangle.Width) break;
+                SizeF size = TextRenderer.MeasureText(textBox.Text, textBox.Font);
+                if (textBox.Width >= size.Width) break;
 
-                    textBox.Font = new Font(textBox.Font.FontFamily, textBox.Font.Size - 1.25f);
-                }
+                textBox.Font = new Font(textBox.Font.FontFamily, textBox.Font.Size - 1.25f);
+                decreased = true;
+            }
 
-                while (textBox.Font.Size < maxFontSize)
-                {
-                    var font = new Font(textBox.Font.FontFamily, textBox.Font.Size + 1.25f);
-                    var sizeNext = TextRenderer.MeasureText(graphics, textBox.Text, font);
-                    
-                    if (sizeNext.Width > textBox.ClientRectangle.Width) return;
+            // if font size was decreased, there's no need in increasing
+            if (decreased) return;
 
-                    textBox.Font = font;
-                }
+            // increasing font size
+            while (textBox.Font.Size < maxFontSize)
+            {
+                Font font = new Font(textBox.Font.FontFamily, textBox.Font.Size + 1.25f);
+                SizeF sizeNext = TextRenderer.MeasureText(textBox.Text, font);
+
+                if (sizeNext.Width > textBox.Width) return;
+
+                textBox.Font = font;
             }
         }
 
