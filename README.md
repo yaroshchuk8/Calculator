@@ -1,19 +1,9 @@
 # Basic Functionality Calculator
-## Created using Visual Studio 22
-## Type of project: Windows Forms App (.net 6.0)
-
-⣶⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⣶<br>
-⣿⠀⠀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⠀ ⣿<br>
-⣿⠀⢸⡟⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⣿⠀ ⣿<br>
-⣿⠀⢸⡇⠀⠀⠀⠀  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⣿⠀ ⣿<br>
-⣿⠀⢸⡇⠀⠀⠀  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⣿ ⠀⣿<br>
-⣿⠀⠘⠿⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠿⠀⣿<br>
-⣿⠀⠀⣀⣀⣀⣀⠀⠀⣀⣀⣀⣀⠀⠀⣀⣀⣀⣀⠀⠀⣿<br>
-⣿⠀⠀⣿⠉⠉⣿⠀⠀⣿⠉⠉⣿⠀⠀⣿⠉⠉⣿⠀⠀⣿<br>
-⣿⠀⠀⠙⠛⠛⠋⠀⠀⠙⠛⠛⠋⠀⠀⠙⠛⠛⠋⠀⠀⣿<br>
-⣿⠀⠀⣶⠶⠶⣶⠀⠀⣶⠶⠶⣶⠀⠀⣶⠶⠶⣶⠀⠀⣿<br>
-⣿⠀⠀⠿⠶⠶⠿⠀⠀⠿⠶⠶⠿⠀⠀⠿⠶⠶⠿⠀⠀⣿<br>
-⣿⠀⠀⣀⣀⣀⣀⠀⠀⣀⣀⣀⣀⠀⠀⣀⣀⣀⣀⠀⠀⣿<br>
-⣿⠀⠀⣿⣉⣉⣿⠀⠀⣿⣉⣉⣿⠀⠀⣿⣉⣉⣿⠀⠀⣿<br>
-⣿⠀⠀⠉⠉⠉⠉⠀⠀⠉⠉⠉⠉⠀⠀⠉⠉⠉⠉⠀⠀⣿<br>
-⢿⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⠿
+## Created using Visual Studio 22 <br> Type of project: Windows Forms App <br> Dependencies: Windows OS, .net 6, C# 10 compiler
+### Execution in terminal:
+```bash
+> git clone https://github.com/yanu1ya/Calculator.git
+> cd Calculator/
+> dotnet build
+> dotnet run
+```
