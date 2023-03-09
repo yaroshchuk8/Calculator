@@ -76,8 +76,8 @@ public partial class Form : System.Windows.Forms.Form
         TextBoxResult.Text = "Ans = " + TextBox.Text;
 
         // issue #8 (commaClicked state if result is fractional number)
-        if (TextBox.Text.Contains(',')) commaClicked = true;
-        
+        commaClicked = TextBox.Text.Contains(',') ? true : false;
+
         equalsClicked = true;
         numberClicked = false;
     }
