@@ -3,7 +3,7 @@
 ### Requirements: Windows OS, .net 6 SDK
 ### Execution in terminal:
 ```bash
-> git clone https://github.com/yanulia8/Calculator.git
+> git clone https://github.com/student2339/Calculator.git
 > cd Calculator/
 > dotnet run
 ```
